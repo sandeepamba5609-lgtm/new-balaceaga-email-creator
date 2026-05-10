@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>New Balaceaga — Email Campaign Creator</title>
+  <meta name="description" content="The official internal email campaign creator for New Balaceaga. Craft and export premium branded marketing emailers." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Quill Rich Text Editor -->
+  <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
+
+  <!-- App Styles -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ─── HEADER ─────────────────────────────────────────── -->
+  <header class="app-header" role="banner">
+    <div class="header-brand">
+      <div class="header-logo-area" id="header-logo-area">
+        <div class="header-logo-mark" id="header-logo-mark">NB</div>
+        <img id="header-logo-img" class="header-logo-img" src="" alt="New Balaceaga Logo" style="display:none;" />
+      </div>
+      <div class="header-wordmark">NEW <span>BALACEAGA</span></div>
+    </div>
+    <div class="header-meta">Email Campaign Creator &nbsp;/&nbsp; Internal Tool</div>
+  </header>
+
+  <!-- ─── MAIN ──────────────────────────────────────────── -->
+  <main class="app-main" id="app-main">
+
+    <!-- ── LEFT: FORM PANEL ──────────────────────────────── -->
+    <section class="form-panel" aria-label="Email composer form">
+      <div class="panel-heading">
+        <p class="panel-label">Compose</p>
+        <h1 class="panel-title">New Emailer</h1>
+      </div>
+
+      <!-- ── LOGO UPLOAD ── -->
+      <div class="form-section" id="section-logo">
+        <p class="section-number">00 &mdash; Brand Identity</p>
+        <label class="section-label">Brand Logo</label>
+        <div class="logo-upload-area" id="logo-upload-area" onclick="document.getElementById('logo-file-input').click()">
+          <div class="logo-upload-preview" id="logo-upload-preview">
+            <div class="logo-placeholder-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            </div>
+            <p class="logo-upload-hint">Click to upload logo</p>
+            <p class="logo-upload-sub">PNG, JPG, SVG, WebP &bull; Max 2MB</p>
+          </div>
+          <img id="logo-preview-img" src="" alt="" style="display:none;" class="logo-preview-img" />
+        </div>
+        <input type="file" id="logo-file-input" accept="image/*" style="display:none;" onchange="handleLogoUpload(event)" />
+        <div class="logo-actions" id="logo-actions" style="display:none;">
+          <button class="btn-inline-ghost" onclick="removeLogo()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+            Remove Logo
+          </button>
+          <button class="btn-inline-ghost" onclick="document.getElementById('logo-file-input').click()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Change Logo
+          </button>
+        </div>
+        <p class="field-hint">Appears in email header &amp; preview. Leave empty to use text wordmark.</p>
+      </div>
+
+      <!-- BOX 1: Banner Image -->
+      <div class="form-section" id="section-banner">
+        <p class="section-number">01 &mdash; Hero Banner</p>
+        <label class="section-label">Banner Image</label>
+        <div class="banner-picker" id="banner-picker">
+          <!-- Populated by JS -->
+        </div>
+        <p class="field-hint">Select a background image for the hero section.</p>
+      </div>
+
+      <!-- BOX 2: Season -->
+      <div class="form-section" id="section-season">
+        <p class="section-number">02 &mdash; Collection Season</p>
+        <label class="section-label" for="campaign-season">Season</label>
+        <select id="campaign-season" class="form-input">
+          <option value="SPRING">Spring</option>
+          <option value="SUMMER">Summer</option>
+          <option value="AUTUMN">Autumn</option>
+          <option value="WINTER">Winter</option>
+          <option value="RESORT">Resort</option>
+          <option value="PRE-FALL">Pre-Fall</option>
+        </select>
+        <p class="field-hint">Appears above the hero title.</p>
+      </div>
+
+      <!-- BOX 3: Emailer Name -->
+      <div class="form-section" id="section-name">
+        <p class="section-number">03 &mdash; Campaign Identity</p>
+        <label class="section-label" for="emailer-name">Emailer Name</label>
+        <input
+          type="text"
+          id="emailer-name"
+          class="form-input"
+          placeholder="e.g. SS26 Drop 01 — The Construct"
+          autocomplete="off"
+          maxlength="80"
+        />
+        <p class="field-hint">Internal reference name. Not visible to recipients.</p>
+      </div>
+
+      <!-- BOX 4: Subject Line -->
+      <div class="form-section" id="section-subject">
+        <p class="section-number">04 &mdash; Inbox Presence</p>
+        <label class="section-label" for="subject-line">
+          Subject Line
+          <span class="char-count" id="subject-count">0 / 60</span>
+        </label>
+        <input
+          type="text"
+          id="subject-line"
+          class="form-input"
+          placeholder="e.g. The future moves quietly."
+          autocomplete="off"
+          maxlength="80"
+        />
+        <p class="field-hint">Aim for under 60 characters for optimal inbox display.</p>
+      </div>
+
+      <!-- BOX 5: Rich Text Email Body -->
+      <div class="form-section rte-section" id="section-body">
+        <p class="section-number">05 &mdash; The Narrative</p>
+        <label class="section-label">Email Body</label>
+
+        <!-- Quill toolbar -->
+        <div id="rte-toolbar">
+          <div class="ql-formats">
+            <select class="ql-header" title="Heading">
+              <option value="1">H1</option>
+              <option value="2">H2</option>
+              <option value="3">H3</option>
+              <option selected>Normal</option>
+            </select>
+          </div>
+          <div class="ql-formats">
+            <button class="ql-bold" title="Bold"></button>
+            <button class="ql-italic" title="Italic"></button>
+            <button class="ql-underline" title="Underline"></button>
+            <button class="ql-strike" title="Strikethrough"></button>
+          </div>
+          <div class="ql-formats">
+            <select class="ql-color" title="Text Color"></select>
+            <select class="ql-background" title="Highlight Color"></select>
+          </div>
+          <div class="ql-formats">
+            <select class="ql-size" title="Font Size">
+              <option value="10px">10</option>
+              <option value="12px">12</option>
+              <option value="14px" selected>14</option>
+              <option value="16px">16</option>
+              <option value="18px">18</option>
+              <option value="20px">20</option>
+              <option value="24px">24</option>
+              <option value="28px">28</option>
+              <option value="32px">32</option>
+              <option value="36px">36</option>
+            </select>
+          </div>
+          <div class="ql-formats">
+            <button class="ql-list" value="ordered" title="Numbered List"></button>
+            <button class="ql-list" value="bullet" title="Bullet List"></button>
+          </div>
+          <div class="ql-formats">
+            <button class="ql-align" value="" title="Align Left"></button>
+            <button class="ql-align" value="center" title="Align Center"></button>
+            <button class="ql-align" value="right" title="Align Right"></button>
+          </div>
+          <div class="ql-formats">
+            <button class="ql-link" title="Insert Link"></button>
+            <button class="ql-blockquote" title="Blockquote"></button>
+            <button class="ql-code-block" title="Code Block"></button>
+          </div>
+          <div class="ql-formats">
+            <button class="ql-clean" title="Remove Formatting"></button>
+          </div>
+        </div>
+        <div id="rte-editor"></div>
+
+        <p class="field-hint">Match the New Balaceaga voice — cold, confident, editorial.</p>
+      </div>
+
+      <!-- CTA 1 -->
+      <div class="cta-group" id="section-cta1">
+        <div class="cta-group-header">
+          <span class="cta-badge primary">CTA 01</span>
+          <span class="cta-group-title">Primary Call to Action</span>
+        </div>
+        <div class="cta-fields">
+          <div>
+            <label class="section-label" for="cta1-text">Button Label</label>
+            <input type="text" id="cta1-text" class="form-input" placeholder="e.g. SHOP THE DROP" autocomplete="off" maxlength="40" />
+          </div>
+          <div>
+            <label class="section-label" for="cta1-link">Destination URL</label>
+            <input type="url" id="cta1-link" class="form-url" placeholder="https://newbalaceaga.com/drop-01" autocomplete="off" />
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA 2 -->
+      <div class="cta-group" id="section-cta2">
+        <div class="cta-group-header">
+          <span class="cta-badge secondary">CTA 02</span>
+          <span class="cta-group-title">Secondary Call to Action <span class="optional-tag">Optional</span></span>
+        </div>
+        <div class="cta-fields">
+          <div>
+            <label class="section-label" for="cta2-text">Button Label</label>
+            <input type="text" id="cta2-text" class="form-input" placeholder="e.g. EXPLORE THE STORY" autocomplete="off" maxlength="40" />
+          </div>
+          <div>
+            <label class="section-label" for="cta2-link">Destination URL</label>
+            <input type="url" id="cta2-link" class="form-url" placeholder="https://newbalaceaga.com/story" autocomplete="off" />
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ── RIGHT: PREVIEW PANEL ──────────────────────────── -->
+    <section class="preview-panel" aria-label="Live email preview">
+
+      <div class="preview-topbar">
+        <div class="preview-topbar-left">
+          <div class="live-dot" aria-hidden="true"></div>
+          <span class="preview-topbar-label">Live Preview</span>
+        </div>
+        <div class="preview-toggle" role="group" aria-label="Preview device size">
+          <button class="toggle-btn active" id="btn-desktop" onclick="setPreviewMode('desktop')" aria-pressed="true">Desktop</button>
+          <button class="toggle-btn" id="btn-mobile" onclick="setPreviewMode('mobile')" aria-pressed="false">Mobile</button>
+        </div>
+      </div>
+
+      <div class="preview-scroll">
+        <div class="email-frame" id="email-preview">
+
+          <!-- EMAIL HEADER -->
+          <div class="email-header-bar">
+            <div class="email-logo-wrap" id="preview-logo-wrap">
+              <div class="email-logo-mark" id="preview-logo-mark">NB</div>
+              <img id="preview-logo-img" src="" alt="New Balaceaga" style="display:none;" class="preview-logo-img" />
+              <div class="email-wordmark" id="preview-wordmark">NEW BALACEAGA</div>
+            </div>
+          </div>
+
+          <!-- EMAIL HERO -->
+          <div class="email-hero">
+            <div class="email-hero-grid"></div>
+            <div class="email-hero-text">
+              <div class="email-hero-eyebrow" id="preview-season">SUMMER COLLECTION</div>
+              <div class="email-hero-title" id="preview-hero-title">THE<br/><span>CONSTRUCT</span></div>
+            </div>
+          </div>
+
+          <!-- EMAIL BODY -->
+          <div class="email-body-section">
+            <p class="email-body-eyebrow">The Message</p>
+            <div class="email-body-copy" id="preview-body">
+              <span class="preview-placeholder">Your campaign copy will appear here. Start writing above.</span>
+            </div>
+          </div>
+
+          <div class="email-divider"></div>
+
+          <!-- EMAIL CTAs -->
+          <div class="email-cta-section" id="preview-cta-section">
+            <a href="#" class="email-cta-btn primary ghost" id="preview-cta1" target="_blank">
+              — Fill in CTA 01 button label —
+            </a>
+            <a href="#" class="email-cta-btn secondary ghost" id="preview-cta2" target="_blank" style="display:none;">
+              Explore →
+            </a>
+          </div>
+
+          <!-- EMAIL FOOTER -->
+          <div class="email-footer">
+            <div class="email-footer-logo" id="preview-footer-logo">
+              <div class="email-footer-logo-mark" id="preview-footer-mark">NB</div>
+              <img id="preview-footer-img" src="" alt="" style="display:none;" class="preview-footer-img" />
+            </div>
+            <p class="email-footer-brand">NEW BALACEAGA &nbsp;&mdash;&nbsp; EST. 2026</p>
+            <p class="email-footer-links">
+              <a href="#">Unsubscribe</a> &nbsp;&bull;&nbsp;
+              <a href="#">Privacy Policy</a> &nbsp;&bull;&nbsp;
+              <a href="#">View in Browser</a>
+            </p>
+            <p class="email-footer-copy">
+              &copy; 2026 New Balaceaga. All rights reserved.<br/>
+              19, The House of New Balaceaga, New York, NY 10001
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ─── ACTIONS BAR ──────────────────────────────────── -->
+  <div class="actions-bar" role="toolbar" aria-label="Email export actions">
+    <button class="btn btn-primary" id="btn-copy-html" onclick="copyHTML()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+      Copy HTML
+    </button>
+    <button class="btn btn-secondary" id="btn-download" onclick="downloadHTML()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+      Download
+    </button>
+    <button class="btn btn-ghost" id="btn-reset" onclick="resetForm()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 .49-4.69"></path></svg>
+      Reset
+    </button>
+  </div>
+
+  <!-- ─── TOAST ─────────────────────────────────────────── -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Quill JS -->
+  <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
